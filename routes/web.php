@@ -14,10 +14,8 @@
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    return view('home');
-});
-
+Route::get('home','HomeController@index');
+Route::get('/','HomeController@index');
 
 Route::get('details', function () {
     return view('blog_detail');
@@ -32,17 +30,14 @@ Route::get('contact-us', function () {
 })->name('contact');
 
 
-Route::get('/dashboard', function () {
-    return view('backend.dashboard');
-})->name('dashboard');
-
-Route::group(['prefix'=>'admin','namespace'=>'Backend'], function(){
+Route::group(['prefix'=>'admin','namespace'=>'Backend','middleware'=>'auth'], function(){
     Route::resource('posts','PostController');
     Route::resource('categories','CategoryController');
+    Route::resource('dashboard', 'DashboardController');
 });
 
-Route::get('/dashboard', function () {
-    return view('backend.dashboard');
-});
+
+
+Auth::routes();
 
 

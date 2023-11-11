@@ -98,20 +98,20 @@
               <li class="has-children">
                 <a href="#">Categories</a>
                 <ul class="dropdown">
-                  <li><a href="portfolio.html">Portfolio</a></li>
-                  <li><a href="single.html">Single</a></li>
+                  <li><a href="portfolio.html">Technology</a></li>
+                  <li><a href="single.html">Environment</a></li>
                   
-                  <li><a href="contact.html">Contact Us</a></li>
-                  <li><a href="#">Categories</a></li>
+                  <li><a href="contact.html">Health & Fitness</a></li>
+                  <li><a href="#">Money & Wealth</a></li>
                   <li class="has-children">
-                    <a href="#">Menu Two</a>
+                    <a href="#">Business</a>
                     <ul class="dropdown">
                       <li><a href="#">Sub Menu One</a></li>
                       <li><a href="#">Sub Menu Two</a></li>
                       <li><a href="#">Sub Menu Three</a></li>
                     </ul>
                   </li>
-                  <li><a href="#">Menu Three</a></li>
+                  <li><a href="#">Ayurvedic Herbs</a></li>
                 </ul>
               </li>
               <li><a href="{{url('about-us')}}">About Us</a></li>

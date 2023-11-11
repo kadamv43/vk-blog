@@ -36,7 +36,7 @@
                         <div class="card-content">
                             <div class="card-body">
                                 <form action="{{route('posts.store')}}" method="POST"
-                                    class="form form-vertical" data-parsley-validate>
+                                    class="form form-vertical" enctype="multipart/form-data" data-parsley-validate>
                                     <div class="form-body">
 
                                         {{csrf_field()}}
@@ -75,9 +75,13 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="first-name-vertical">Image</label>
-                                                    <input type="file" class="image-preview-filepond" name="image" >
+                                                    <input id="img" type="file" class="form-control" name="image" >
                                                     {{-- <input class="form-control" type="file" name="image"  /> --}}
                                                 </div>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <img id="imgPreview" style="width: 50%" class="img-fluid" src="{{asset('assets/images/no-image.jpg')}}" />
                                             </div>
 
                                             <div class="col-12 d-flex justify-content-end">

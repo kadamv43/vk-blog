@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Support\Facades\Validator;
+
 
 class PostController extends Controller
 {
@@ -39,21 +41,36 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $create_data = Post::create([
-            'title'=>$request->input('title'),
-            'slug'=>$request->input('title'),
-            'category_id'=>$request->input('category_id'),
-            'description'=>$request->input('description'),
-            // 'image'=>$request->input('name'),
-            'created_at'=>date('Y-m-d'),
-            'updated_at'=>date('Y-m-d'),
+        $validator = Validator::make($request->all(),[
+            'title' => 'required',
+            'category_id' => 'required',
+            'description' => 'required'
         ]);
 
-        if($create_data){
-            return redirect()->route('posts.index')->with('success','Post Created Successfully');
-        }else{
-            return redirect()->back()->withErrors(['error'=>'Unable create Post please try after sometime']);
+        if ($validator->fails()) {
+            return redirect()->route('posts.create')->withErrors($validator)->withInput();
         }
+
+        $post = new Post();
+        $post->title = $request->input('title');
+        $post->slug = str_replace(' ','-',$request->input('title')) ;
+        $post->category_id = $request->input('category_id');
+        $post->description = $request->input('description');
+        $post->created_at = date('Y-m-d');
+        $post->updated_at = date('Y-m-d');
+        
+        if($post->save()){
+            if($request->hasFile('image')){
+                $file = $request->file('image');
+                $filename = $post->id.".".$file->extension();
+                $path = $file->storeAs("images",$filename);
+                $post->image = $path;
+                $post->save();
+            }
+        }
+
+        return redirect()->route('posts.index')->with('success','Post Created Successfully');
+
     }
 
     /**
@@ -90,13 +107,29 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(),[
+            'title' => 'required',
+            'category_id' => 'required',
+            'description' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('posts.edit',['id'=>$id])->withErrors($validator)->withInput();
+        }
+
         $post = Post::findOrFail($id);
         $post->title = $request->input('title');
         $post->slug = $request->input('title');
         $post->category_id =  (int) $request->input('category_id');
         $post->description = $request->input('description');
-            // 'image'=>$request->input('name'),
         $post->updated_at = date('Y-m-d');
+
+        if($request->hasFile('image')){
+            $file = $request->file('image');
+            $filename = $post->id.".".$file->extension();
+            $path = $file->storeAs("images",$filename);
+            $post->image = $path;
+        }
 
         if($post->save()){
             return redirect()->route('posts.index')->with('success','Post Updated Successfully');
