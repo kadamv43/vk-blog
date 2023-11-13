@@ -38,6 +38,6 @@ Route::group(['prefix'=>'admin','namespace'=>'Backend','middleware'=>'auth'], fu
 
 
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 
