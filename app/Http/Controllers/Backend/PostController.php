@@ -9,6 +9,8 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
 use Image;
 use Exception;
+use Illuminate\Support\Facades\Storage;
+
 
 
 class PostController extends Controller
@@ -68,6 +70,7 @@ class PostController extends Controller
                 $file = $request->file('image');
                 $filename = $post->id.".webp";
                 $path = storage_path('app/public/images').'/'.$filename;
+                Storage::disk('public')->makeDirectory('images');
                 Image::make($file)->resize(1000, 700)->save($path,50);
                 $post->image = "images/".$filename;
                 $post->save();
