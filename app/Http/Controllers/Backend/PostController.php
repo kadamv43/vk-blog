@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
+use Image;
+use Exception;
 
 
 class PostController extends Controller
@@ -18,7 +20,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $data = Post::where('status',1)->get();
+        $data = Post::where('status',1)
+        ->orderBy('id','desc')
+        ->get();
         return view('backend.posts.index',compact('data'));
     }
 
@@ -62,14 +66,15 @@ class PostController extends Controller
         if($post->save()){
             if($request->hasFile('image')){
                 $file = $request->file('image');
-                $filename = $post->id.".".$file->extension();
-                $path = $file->storeAs("images",$filename);
-                $post->image = $path;
+                $filename = $post->id.".webp";
+                $path = storage_path('app/public/images').'/'.$filename;
+                Image::make($file)->resize(1000, 700)->save($path,50);
+                $post->image = "images/".$filename;
                 $post->save();
             }
-        }
+    }
 
-        return redirect()->route('posts.index')->with('success','Post Created Successfully');
+    return redirect()->route('posts.index')->with('success','Post Created Successfully');
 
     }
 
@@ -126,9 +131,10 @@ class PostController extends Controller
 
         if($request->hasFile('image')){
             $file = $request->file('image');
-            $filename = $post->id.".".$file->extension();
-            $path = $file->storeAs("images",$filename);
-            $post->image = $path;
+            $filename = $post->id.".webp";
+            $path = storage_path('app/public/images').'/'.$filename;
+            Image::make($file)->resize(1000, 700)->save($path,50);
+            $post->image = "images/".$filename;
         }
 
         if($post->save()){

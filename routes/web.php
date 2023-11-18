@@ -16,10 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('home','HomeController@index');
 Route::get('/','HomeController@index');
+Route::post('/upload-image','HomeController@upload')->name('ckeditor.upload');
 
-Route::get('details', function () {
-    return view('blog_detail');
-});
+Route::get('details/{id}/{slug?}','HomeController@details');
+Route::get('category/{id}/{slug?}','HomeController@category')->name('category');
+Route::get('categories','HomeController@categoryList')->name('categories');
 
 Route::get('about-us', function () {
     return view('about_us');

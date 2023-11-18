@@ -65,24 +65,21 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
+                                                    <label for="first-name-vertical">Image</label>
+                                                    <input id="img" type="file" class="form-control" name="image" >
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <img id="imgPreview" style="width: 50%" class="img-fluid" src="{{asset('storage/'.$post->image)}}" />
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
                                                     <label for="first-name-vertical">Description</label>
-                                                    <textarea name="description" id="editor">
+                                                    <textarea id="summernote" name="description">
                                                         {{ $post->description }}
                                                     </textarea>
                                                 </div>
                                             </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="first-name-vertical">Image</label>
-                                                    <input id="img" type="file" class="form-control" name="image" >
-                                                    {{-- <input class="form-control" type="file" name="image"  /> --}}
-                                                </div>
-                                            </div>
-
-                                            <div class="col-6">
-                                                <img id="imgPreview" style="width: 50%" class="img-fluid" src="{{asset('storage/'.$post->image)}}" />
-                                            </div>
-
                                             <div class="col-12 d-flex justify-content-end">
                                                 <button type="submit"
                                                     class="btn btn-primary me-1 mb-1">Submit</button>

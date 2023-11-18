@@ -41,6 +41,11 @@ class CategoryController extends Controller
     {
        $category = Category::create([
            'name'=>$request->input('name'),
+           'slug'=>str_replace(
+            [' ','&'],
+            ['-','and'],
+            strtolower($request->input('name'))
+           ),
            'created_at'=>date('Y-m-d'),
        ]);
 
@@ -84,7 +89,11 @@ class CategoryController extends Controller
     public function update(RequestUpdateCategory $request, $id)
     {
         $category = Category::where('id',$id)->update([
-            'name'=>$request->input('name')
+            'name'=>$request->input('name'),
+            'slug'=>str_replace(
+            [' ','&'],
+            ['-','and'],
+            strtolower($request->input('name')))
         ]);
 
         if($category){

@@ -98,20 +98,21 @@
               <li class="has-children">
                 <a href="#">Categories</a>
                 <ul class="dropdown">
-                  <li><a href="portfolio.html">Technology</a></li>
-                  <li><a href="single.html">Environment</a></li>
+                  <li><a href="{{route('category',['id'=>1,'technology'])}}">Technology</a></li>
+                  <li><a href="{{route('category',['id'=>2,'environment'])}}">Environment</a></li>
                   
-                  <li><a href="contact.html">Health & Fitness</a></li>
-                  <li><a href="#">Money & Wealth</a></li>
-                  <li class="has-children">
+                  <li><a href="{{route('category',['id'=>3,'health-and-fitness'])}}">Health & Fitness</a></li>
+                  <li><a href="{{route('category',['id'=>4,'money-and-wealth'])}}">Money & Wealth</a></li>
+                  <li><a href="{{route('category',['id'=>5,'business'])}}">Business</a></li>
+                  {{-- <li class="has-children">
                     <a href="#">Business</a>
                     <ul class="dropdown">
                       <li><a href="#">Sub Menu One</a></li>
                       <li><a href="#">Sub Menu Two</a></li>
                       <li><a href="#">Sub Menu Three</a></li>
                     </ul>
-                  </li>
-                  <li><a href="#">Ayurvedic Herbs</a></li>
+                  </li> --}}
+                  <li><a href="{{route('category',['id'=>6,'ayurvedic-herbs'])}}">Ayurvedic Herbs</a></li>
                 </ul>
               </li>
               <li><a href="{{url('about-us')}}">About Us</a></li>
@@ -174,6 +175,11 @@
     <script src="{{asset('assets/frontend/js/jquery.fancybox.min.js')}}"></script>
     <script src="{{asset('assets/frontend/js/custom.js')}}"></script>
 
+    <script>
+      $(document).ready(function(){
+        document.getElementById("")
+      })
+    </script>
     
   </body>
   </html>

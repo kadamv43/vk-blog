@@ -4,7 +4,6 @@
 
 @section('content')
 
-
 <div class="page-heading">
     <div class="page-title">
         <div class="row">
@@ -35,8 +34,8 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <form action="{{route('posts.store')}}" method="POST"
-                                    class="form form-vertical" enctype="multipart/form-data" data-parsley-validate>
+                                <form action="{{route('posts.store')}}" method="POST" class="form form-vertical"
+                                    enctype="multipart/form-data" data-parsley-validate>
                                     <div class="form-body">
 
                                         {{csrf_field()}}
@@ -44,9 +43,8 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="first-name-vertical">Post title</label>
-                                                    <input data-parsley-required type="text"
-                                                        id="first-name-vertical" class="form-control" name="title"
-                                                        placeholder="Post title"
+                                                    <input data-parsley-required type="text" id="first-name-vertical"
+                                                        class="form-control" name="title" placeholder="Post title"
                                                         value="{{ old('title') }}"
                                                         data-parsley-required-message="Post title required">
                                                 </div>
@@ -54,7 +52,9 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="first-name-vertical">Category</label>
-                                                    <select name="category_id" class="choices form-select" data-parsley-required="true" data-parsley-required-message="Category is required"  >
+                                                    <select name="category_id" class="choices form-select"
+                                                        data-parsley-required="true"
+                                                        data-parsley-required-message="Category is required">
                                                         <option value="">Select Category</option>
                                                         @foreach ($categories as $category )
                                                         <option value="{{$category->id}}">{{$category->name}}</option>
@@ -65,28 +65,22 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label for="first-name-vertical">Description</label>
-                                                    <textarea name="description" id="editor"></textarea>
-                                                    <div >
-
-                                                    </div>
+                                                    <label for="first-name-vertical">Image</label>
+                                                    <input id="img" type="file" class="form-control" name="image">
                                                 </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <img id="imgPreview" style="width: 50%" class="img-fluid"
+                                                    src="{{asset('assets/images/no-image.jpg')}}" />
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label for="first-name-vertical">Image</label>
-                                                    <input id="img" type="file" class="form-control" name="image" >
-                                                    {{-- <input class="form-control" type="file" name="image"  /> --}}
+                                                    <label for="first-name-vertical">Description</label>
+                                                    <textarea id="summernote" name="description"></textarea>
                                                 </div>
                                             </div>
-
-                                            <div class="col-6">
-                                                <img id="imgPreview" style="width: 50%" class="img-fluid" src="{{asset('assets/images/no-image.jpg')}}" />
-                                            </div>
-
                                             <div class="col-12 d-flex justify-content-end">
-                                                <button type="submit"
-                                                    class="btn btn-primary me-1 mb-1">Submit</button>
+                                                <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
                                                 <button type="reset"
                                                     class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                             </div>
@@ -100,7 +94,6 @@
             </div>
         </section>
     </div>
-
 </div>
 
 @endsection
