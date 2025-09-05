@@ -1,0 +1,6 @@
+@media (min-width: 768px) {
+    .carousel-item .card {
+        max-width: calc(33.333% - 1rem);
+        /* 3 cards per slide with spacing */
+    }
+}

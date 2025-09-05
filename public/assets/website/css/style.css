@@ -1,0 +1,43 @@
+body {
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+}
+
+.offcanvas-start {
+    width: 250px;
+}
+
+.carousel-item > .row {
+    display: flex;
+}
+
+.carousel-inner {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.carousel-item {
+    flex: 0 0 100%;
+}
+
+.navbar-toggler {
+    display: block;
+}
+
+@media (min-width: 768px) {
+    .navbar-toggler {
+        display: none;
+    }
+}
+
+.carousel-item > .d-flex {
+    width: 100%;
+}
+
+.carousel-item .card {
+    min-width: 0;
+}
+
+.sticky-top {
+    top: 1rem;
+}
