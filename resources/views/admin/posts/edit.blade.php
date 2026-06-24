@@ -32,37 +32,31 @@
                 </div>
                 <div class="card-content">
                     <div class="card-body">
-                        <form action="{{route('posts.update',$post->id)}}" method="POST" class="form form-vertical"
-                            enctype="multipart/form-data" data-parsley-validate>
+                        <form action="{{route('posts.update',$post->id)}}" method="POST" class="form form-vertical" enctype="multipart/form-data" data-parsley-validate>
                             @csrf
                             @method('PUT')
 
                             <div class="mb-6">
                                 <div class="form-group">
                                     <label for="first-name-vertical">Post title</label>
-                                    <input data-parsley-required type="text" id="first-name-vertical"
-                                        class="form-control" name="title" placeholder="Post title"
-                                        value="{{ $post->title }}" data-parsley-required-message="Post title required">
+                                    <input data-parsley-required type="text" id="first-name-vertical" class="form-control" name="title" placeholder="Post title" value="{{ $post->title }}" data-parsley-required-message="Post title required">
                                 </div>
                             </div>
                             <div class="mb-6">
                                 <label class="form-label" for="tags">Tags</label>
-                                <select class="form-control select2-tags" name="tags[]" multiple="multiple"
-                                    style="width: 100%;">
+                                <select class="form-control select2-tags" name="tags[]" multiple="multiple" style="width: 100%;">
 
-                                    @if(!is_null($post->tags))
-                                    @foreach(json_decode($post->tags) as $tag)
+                                    @if(!empty($post->tags))
+                                    @foreach($post->tags as $tag)
                                     <option value="{{ $tag }}" selected>{{ $tag }}</option>
                                     @endforeach
-
                                     @endif
                                 </select>
                             </div>
                             <div class="mb-6">
                                 <div class="form-group">
                                     <label for="first-name-vertical">Category</label>
-                                    <select name="category_id" class="choices form-select" data-parsley-required="true"
-                                        data-parsley-required-message="Category is required">
+                                    <select name="category_id" class="choices form-select" data-parsley-required="true" data-parsley-required-message="Category is required">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category )
                                         <option @if ($post->category_id==$category->id) selected @endif
@@ -74,15 +68,12 @@
                             <div class="mb-6">
                                 <div class="form-group">
                                     <label for="image">Image</label>
-                                    <input id="imgInput" type="file" class="form-control" name="image"
-                                        accept="image/png, image/jpeg" onchange="previewSelectedImage(event)">
+                                    <input id="imgInput" type="file" class="form-control" name="image" accept="image/png, image/jpeg" onchange="previewSelectedImage(event)">
                                     <div class="mt-3">
                                         @if($post->image)
-                                        <img id="imgPreview" src="{{ asset($post->image) }}" alt="Current Image"
-                                            style="max-height: 200px;" class="img-fluid rounded shadow">
+                                        <img id="imgPreview" src="{{ asset($post->image) }}" alt="Current Image" style="max-height: 200px;" class="img-fluid rounded shadow">
                                         @else
-                                        <img id="imgPreview" src="#" alt="Image Preview"
-                                            style="display: none; max-height: 200px;" class="img-fluid rounded shadow">
+                                        <img id="imgPreview" src="#" alt="Image Preview" style="display: none; max-height: 200px;" class="img-fluid rounded shadow">
                                         @endif
                                     </div>
                                 </div>

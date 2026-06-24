@@ -2,6 +2,42 @@
 
 @push('styles')
 <link href="{{asset('assets/website/css/details.css')}}" rel="stylesheet" />
+
+<style>
+    .related-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .related-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+
+    .related-card-body {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .related-card-title {
+        min-height: 56px;
+        overflow: hidden;
+    }
+
+    .related-card-desc {
+        min-height: 72px;
+        overflow: hidden;
+    }
+
+    .related-read-more {
+        margin-top: auto;
+    }
+
+
+</style>
 @endpush
 
 
@@ -12,12 +48,14 @@
 
         <!-- Blog Content + Carousel -->
         <section class="col-md-9">
-            <article style="max-width: 800px">
+            <article class="w-100">
                 <h1 class="mb-3">{{$detail->title}}</h1>
                 <p class="text-muted">Posted on May 29, 2025 by John Doe</p>
-                <img src="{{ asset('storage/' . $detail->image) }}" class="img-fluid rounded mb-4" alt="Blog banner" />
+                <div class="mb-4 text-center">
+                    <img src="{{ asset($detail->image) }}" class="img-fluid rounded shadow" alt="{{ $detail->title }}" loading="lazy">
+                </div>
 
-                {!! $detail->description !!}
+                {!! html_entity_decode($detail->description) !!}
 
             </article>
 
@@ -27,52 +65,48 @@
                 <h2 class="mb-4">Related Blogs</h2>
 
                 @php
-                // Get related posts in chunks of 3 for carousel slides
                 $relatedPosts = $detail->relatedByTags();
-                $chunks = $relatedPosts->chunk(3);
                 @endphp
 
-                @if($relatedPosts->isNotEmpty())
-                <div id="relatedBlogCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
+                @if($relatedPosts->count())
+                <div class="row g-4">
 
-                        @foreach($chunks as $chunkIndex => $chunk)
-                        <div class="carousel-item @if($chunkIndex === 0) active @endif">
-                            <div class="d-flex justify-content-between gap-3">
+                    @php
+                    $colClass = match(true) {
+                    $relatedPosts->count() == 1 => 'col-md-12',
+                    $relatedPosts->count() == 2 => 'col-md-6',
+                    default => 'col-lg-4 col-md-6',
+                    };
+                    @endphp
 
-                                @foreach($chunk as $post)
-                                <div class="card h-100 flex-fill @if($loop->index > 0) d-none d-md-block @endif">
-                                    <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top" alt="{{ $post->title }}" />
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $post->title }}</h5>
-                                        <p class="card-text">{!! Str::limit($post->short_description ?? $post->description, 80) !!}</p>
-                                        <a href="{{ route('details', $post->slug) }}" class="btn btn-primary btn-sm">Read More</a>
-                                    </div>
-                                </div>
-                                @endforeach
+                    @foreach($relatedPosts as $post)
+                    <div class="{{ $colClass }}">
+                        <div class="card shadow-sm related-card">
+
+                            <img src="{{ asset($post->image) }}" class="card-img-top related-img" alt="{{ $post->title }}" loading="lazy">
+
+                            <div class="card-body related-card-body">
+
+                                <h5 class="card-title related-card-title">
+                                    {{ $post->title }}
+                                </h5>
+
+                                <p class="card-text related-card-desc">
+                                    {{ Str::limit(strip_tags($post->short_description), 100) }}
+                                </p>
+
+                                <a href="{{ route('details',$post->slug) }}" class="btn btn-primary btn-sm related-read-more">
+                                    Read More
+                                </a>
 
                             </div>
                         </div>
-                        @endforeach
-
                     </div>
+                    @endforeach
 
-                    <!-- Controls -->
-
-                    @if($relatedPosts->count() > 3)
-                    <div class="text-center mt-3">
-                        <button class="btn btn-outline-secondary me-2" type="button" data-bs-target="#relatedBlogCarousel" data-bs-slide="prev">
-                            &larr; Previous
-                        </button>
-                        <button class="btn btn-outline-secondary" type="button" data-bs-target="#relatedBlogCarousel" data-bs-slide="next">
-                            Next &rarr;
-                        </button>
-                    </div>
-
-                    @endif
                 </div>
                 @else
-                <p>No related posts found.</p>
+                <p>No related blogs found.</p>
                 @endif
             </div>
 
@@ -85,10 +119,11 @@
                     <div class="card-body">
                         <h5 class="card-title fw-semibold">Related Tags</h5>
                         <div class="d-flex flex-wrap gap-2">
-                            <a href="#" class="badge bg-primary text-decoration-none">Health</a>
-                            <a href="#" class="badge bg-secondary text-decoration-none">Medicines</a>
-                            <a href="#" class="badge bg-success text-decoration-none">Health Tips</a>
-                            <a href="#" class="badge bg-info text-dark text-decoration-none">Diet Plans</a>
+                            @foreach($detail->tags ?? [] as $tag)
+                            <span class="badge bg-primary">
+                                {{ $tag }}
+                            </span>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -97,7 +132,7 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title fw-semibold">Popular Posts</h5>
-                        <ul class="list-unstyled">
+                        {{-- <ul class="list-unstyled">
                             <li class="d-flex mb-3">
                                 <img src="https://picsum.photos/60/60?random=10" alt="Post 1" class="me-3 rounded" style="width: 60px; height: 60px; object-fit: cover" />
                                 <a href="#" class="text-decoration-none align-self-center">
@@ -116,7 +151,7 @@
                                     Best Diet Plans for Weight Loss
                                 </a>
                             </li>
-                        </ul>
+                        </ul> --}}
                     </div>
                 </div>
 

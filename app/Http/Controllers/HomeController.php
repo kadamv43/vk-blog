@@ -11,12 +11,18 @@ class HomeController extends Controller
 
     public function index()
     {
-        $latest = Post::latest()->take(6)->get();
+        $latest = Post::orderByDesc('id')->take(6)->get();
+        $trending = Post::orderByDesc('views')->take(6)->get();
         $cat_ids = Post::whereNotNull('category_id')->groupBy('category_id')->pluck('category_id');
         $categories = Category::whereIn('id', $cat_ids)->get();
+        $editors_pick = Post::where('is_editors_pick', 1)
+            ->latest()
+            ->first();
         return view('website.home', [
             'latest' => $latest,
-            'categories' => $categories
+            'categories' => $categories,
+            'trending' => $trending,
+            'editors_pick' => $editors_pick
         ]);
     }
 

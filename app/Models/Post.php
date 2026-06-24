@@ -15,22 +15,26 @@ class Post extends Model
         'category_id',
         'tags',
         'description',
+        'views',
+        'is_editors_pick',
         'short_description',
         'image',
     ];
 
+    protected $casts = [
+        'tags' => 'array',
+    ];
+
     public function relatedByTags()
     {
-        if (!$this->tags) {
-            return collect(); // return empty collection if no tags
+        if (empty($this->tags)) {
+            return collect();
         }
 
-        $tags = explode(',', $this->tags);
-
         return Post::where('id', '!=', $this->id)
-            ->where(function ($query) use ($tags) {
-                foreach ($tags as $tag) {
-                    $query->orWhere('tags', 'LIKE', '%' . trim($tag) . '%');
+            ->where(function ($query) {
+                foreach ($this->tags as $tag) {
+                    $query->orWhereJsonContains('tags', $tag);
                 }
             })
             ->take(3)

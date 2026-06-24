@@ -29,7 +29,7 @@ class PostController extends Controller
     {
         $data = Post::where('status', 1)
             ->with('category')
-            ->orderBy('id', 'desc')
+            ->orderByDesc('id')
             ->paginate(5);
 
         return view('admin.posts.index', [
@@ -66,9 +66,17 @@ class PostController extends Controller
 
         // Handle tags (comma-separated string)
         if ($request->filled('tags')) {
-            $tagsArray = explode(',', $request->input('tags'));
-            $tagsArray = array_map(fn($tag) => strtolower(trim($tag)), $tagsArray);
-            $post->tags = implode(',', $tagsArray);
+
+            $tags = $request->input('tags');
+
+            if (is_string($tags)) {
+                $tags = explode(',', $tags);
+            }
+
+            $post->tags = array_map(
+                fn($tag) => strtolower(trim($tag)),
+                $tags
+            );
         }
 
         // Handle image upload and optimization
@@ -77,11 +85,8 @@ class PostController extends Controller
             $image = $request->file('image');
 
             $resizedImage = $manager->read($image)
-                ->resize(800, 600, function ($c) {
-                    return $c->aspectRatio()->upsize();
-                })
-                ->cover(800, 600, 'center') // ensures exact size
-                ->toWebp(75);
+                ->scale(width: 1200)
+                ->toWebp(85);
 
             $filename = time() . '.webp';
             $directory = public_path('assets/uploads/images');
@@ -144,6 +149,8 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->input('tags'));
+
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'description' => 'required'
@@ -155,15 +162,21 @@ class PostController extends Controller
 
         $post = Post::findOrFail($id);
         $post->title = $request->input('title');
+        $post->slug = Str::slug($request->input('title'));
         $post->category_id = (int) $request->input('category_id');
         $post->description = $request->input('description');
+        $post->short_description = $request->input('short_description');
         $post->updated_at = now();
 
         // Tags handling (comma-separated string)
         if ($request->filled('tags')) {
-            $tags = explode(',', $request->input('tags')); // in case you pass "PHP, Laravel"
-            $tags = array_map(fn($tag) => strtolower(trim($tag)), $tags);
-            $post->tags = implode(',', $tags);
+
+            $tags = array_map(
+                fn($tag) => strtolower(trim($tag)),
+                $request->input('tags')
+            );
+
+            $post->tags = $tags;
         }
 
         // Image upload
@@ -177,11 +190,8 @@ class PostController extends Controller
             $image = $request->file('image');
 
             $resizedImage = $manager->read($image)
-                ->resize(800, 600, function ($c) {
-                    return $c->aspectRatio()->upsize();
-                })
-                ->cover(800, 600, 'center')
-                ->toWebp(90);
+                ->scale(width: 1200)
+                ->toWebp(70);
 
             $filename = time() . '.webp';
             $directory = public_path('assets/uploads/images');
