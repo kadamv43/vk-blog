@@ -32,6 +32,15 @@
                 </div>
                 <div class="card-content">
                     <div class="card-body">
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
                         <form action="{{route('posts.update',$post->id)}}" method="POST" class="form form-vertical" enctype="multipart/form-data" data-parsley-validate>
                             @csrf
                             @method('PUT')
@@ -91,6 +100,85 @@
                                     <textarea class="editor" name="description">
                                     {{ $post->description }}
                                     </textarea>
+                                </div>
+                            </div>
+
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    <h5 class="mb-0">SEO Settings</h5>
+                                </div>
+
+                                <div class="card-body">
+
+                                    <div class="mb-6">
+                                        <label class="form-label">SEO Title</label>
+                                        <input type="text" name="meta_title" class="form-control @error('meta_title') is-invalid @enderror" value="{{ old('meta_title', $post->meta_title) }}" maxlength="60">
+
+                                        @error('meta_title')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-6">
+                                        <label class="form-label">Meta Description</label>
+                                        <textarea name="meta_description" rows="3" maxlength="160" class="form-control @error('meta_description') is-invalid @enderror">{{ old('meta_description', $post->meta_description) }}</textarea>
+
+                                        @error('meta_description')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-6">
+                                        <label class="form-label">Meta Keywords</label>
+                                        <input type="text" name="meta_keywords" class="form-control @error('meta_keywords') is-invalid @enderror" value="{{ old('meta_keywords', $post->meta_keywords) }}">
+
+                                        @error('meta_keywords')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-6">
+                                        <label class="form-label">Focus Keyword</label>
+                                        <input type="text" name="focus_keyword" class="form-control @error('focus_keyword') is-invalid @enderror" value="{{ old('focus_keyword', $post->focus_keyword) }}">
+
+                                        @error('focus_keyword')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-6">
+                                        <label class="form-label">Schema Type</label>
+
+                                        <select name="schema_type" class="form-select @error('schema_type') is-invalid @enderror">
+
+                                            <option value="article" {{ old('schema_type', $post->schema_type) == 'article' ? 'selected' : '' }}>
+                                                Article
+                                            </option>
+
+                                            <option value="blogposting" {{ old('schema_type', $post->schema_type) == 'blogposting' ? 'selected' : '' }}>
+                                                Blog Posting
+                                            </option>
+
+                                            <option value="tutorial" {{ old('schema_type', $post->schema_type) == 'tutorial' ? 'selected' : '' }}>
+                                                Tutorial
+                                            </option>
+                                        </select>
+
+                                        @error('schema_type')
+                                        <div class="invalid-feedback d-block">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="mb-6 d-flex justify-content-end">

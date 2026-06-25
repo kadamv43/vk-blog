@@ -10,6 +10,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
 use Exception;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Str;
@@ -63,6 +64,12 @@ class PostController extends Controller
         $post->category_id = $request->input('category_id');
         $post->description = $request->input('description');
         $post->short_description = $request->input('short_description');
+
+        $post->meta_title = $request->input('meta_title');
+        $post->meta_description = $request->input('meta_description');
+        $post->meta_keywords = $request->input('meta_keywords');
+        $post->focus_keyword = $request->input('focus_keyword');
+        $post->schema_type = $request->input('schema_type', 'article');
 
         // Handle tags (comma-separated string)
         if ($request->filled('tags')) {
@@ -149,11 +156,19 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->input('tags'));
-
         $validator = Validator::make($request->all(), [
-            'title' => 'required',
-            'description' => 'required'
+            'title' => 'required|max:255',
+            'description' => 'required',
+
+            'meta_title' => 'nullable|max:255',
+            'meta_description' => 'nullable|max:500',
+            'meta_keywords' => 'nullable',
+            'focus_keyword' => 'nullable|max:255',
+            'schema_type' => 'nullable|in:article,blogposting,tutorial',
+            'slug' => [
+                'nullable',
+                Rule::unique('posts', 'slug')->ignore($id),
+            ],
         ]);
 
         if ($validator->fails()) {
@@ -162,10 +177,21 @@ class PostController extends Controller
 
         $post = Post::findOrFail($id);
         $post->title = $request->input('title');
+
+        $post->title = $request->input('title');
         $post->slug = Str::slug($request->input('title'));
+
         $post->category_id = (int) $request->input('category_id');
         $post->description = $request->input('description');
         $post->short_description = $request->input('short_description');
+
+        // SEO Fields
+        $post->meta_title = $request->input('meta_title');
+        $post->meta_description = $request->input('meta_description');
+        $post->meta_keywords = $request->input('meta_keywords');
+        $post->focus_keyword = $request->input('focus_keyword');
+        $post->schema_type = $request->input('schema_type', 'article');
+
         $post->updated_at = now();
 
         // Tags handling (comma-separated string)

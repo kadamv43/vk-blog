@@ -19,6 +19,13 @@ class Post extends Model
         'is_editors_pick',
         'short_description',
         'image',
+
+        // SEO Fields
+        'meta_title',
+        'meta_description',
+        'meta_keywords',
+        'focus_keyword',
+        'schema_type',
     ];
 
     protected $casts = [
@@ -44,5 +51,15 @@ class Post extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    public function getSeoTitleAttribute()
+    {
+        return $this->meta_title ?: $this->title;
+    }
+
+    public function getSeoDescriptionAttribute()
+    {
+        return $this->meta_description ?: strip_tags($this->short_description);
     }
 }

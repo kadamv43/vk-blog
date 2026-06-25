@@ -15,6 +15,15 @@
                     {{-- <small class="text-body float-end">Default label</small> --}}
                 </div>
                 <div class="card-body">
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                     <form action="{{route('posts.store')}}" method="POST" enctype="multipart/form-data" data-parsley-validate>
                         @csrf
                         <div class="mb-6">
@@ -62,6 +71,45 @@
                             <label class="form-label" for="basic-default-message">Description</label>
                             <textarea class="editor" name="description"></textarea>
                         </div>
+
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">SEO Settings</h5>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="mb-6">
+                                    <label class="form-label">SEO Title</label>
+                                    <input type="text" class="form-control" name="meta_title" value="{{ old('meta_title') }}" maxlength="60" placeholder="SEO Title">
+                                </div>
+
+                                <div class="mb-6">
+                                    <label class="form-label">Meta Description</label>
+                                    <textarea class="form-control" name="meta_description" rows="3" maxlength="160" placeholder="Meta Description">{{ old('meta_description') }}</textarea>
+                                </div>
+
+                                <div class="mb-6">
+                                    <label class="form-label">Meta Keywords</label>
+                                    <input type="text" class="form-control" name="meta_keywords" value="{{ old('meta_keywords') }}" placeholder="laravel, php, tutorial">
+                                </div>
+
+                                <div class="mb-6">
+                                    <label class="form-label">Focus Keyword</label>
+                                    <input type="text" class="form-control" name="focus_keyword" value="{{ old('focus_keyword') }}" placeholder="Laravel Queue">
+                                </div>
+
+                                <div class="mb-6">
+                                    <label class="form-label">Schema Type</label>
+                                    <select name="schema_type" class="form-select">
+                                        <option value="article">Article</option>
+                                        <option value="blogposting">Blog Posting</option>
+                                        <option value="tutorial">Tutorial</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Send</button>
                     </form>
                 </div>
