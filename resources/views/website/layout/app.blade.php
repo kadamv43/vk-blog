@@ -16,7 +16,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-light bg-light border-bottom shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{{route('home')}}">My Blog</a>
+            <a class="navbar-brand fw-bold" href="{{route('home')}}">VkBlog</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>

@@ -23,7 +23,7 @@
 <main class="container py-5">
     <div class="row">
         <div class="col-lg-8">
-            <h1 class="mb-4">Welcome to My Blog</h1>
+            <h1 class="mb-4">Welcome to VkBlog</h1>
             <p>
                 This is a lightweight, responsive blog template built with Bootstrap
                 5.
