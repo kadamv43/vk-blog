@@ -20,7 +20,7 @@
 
 @section('content')
 <!-- Main Content with Sidebar -->
-<main class="container py-5">
+<div class="container py-5">
     <div class="row">
         <div class="col-lg-8">
             <h1 class="mb-4">Welcome to VkBlog</h1>
@@ -220,5 +220,5 @@
             </div>
         </aside>
     </div>
-</main>
+</div>
 @endsection

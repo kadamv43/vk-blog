@@ -2,13 +2,15 @@
 
 @section('content')
 
-<main class="container py-5">
+<div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
 
             <div class="text-center mb-5">
                 <h2 class="fw-bold">Get in Touch</h2>
-                <p class="text-muted">Have questions or feedback? We'd love to hear from you.</p>
+                <p class="text-muted">Let's Connect
+                    Have a question, suggestion, or just want to say hello?
+                    Fill out the form below and I'll get back to you as soon as possible.</p>
             </div>
 
             <div class="row g-5">
@@ -18,7 +20,7 @@
                     <ul class="list-unstyled text-muted mb-4">
                         <li class="mb-2">
                             <i class="bi bi-envelope me-2 text-primary"></i>
-                            support@yourblog.com
+                            contact@vkblog.in
                         </li>
                     </ul>
 
@@ -34,9 +36,18 @@
                 <!-- Right Column: Form -->
                 <div class="col-md-7">
                     @if(session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
+                    <div class="alert alert-success">{{ session('success') }}</div>
                     @endif
 
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                     <form action="{{ route('contact.store') }}" method="POST" class="row g-3">
                         @csrf
 
@@ -64,6 +75,6 @@
 
         </div>
     </div>
-</main>
+</div>
 
-@endsection
+    @endsection

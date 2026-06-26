@@ -52,4 +52,19 @@ class HomeController extends Controller
     {
         return view('website.about');
     }
+
+    public function privacyPolicy()
+    {
+        return view('website.privacy_policy');
+    }
+
+    public function termsAndConditions()
+    {
+        return view('website.terms_and_condition');
+    }
+
+    public function disclaimer()
+    {
+        return view('website.disclaimer');
+    }
 }

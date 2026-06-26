@@ -29,6 +29,9 @@ Route::get('/details/{slug}', [HomeController::class, 'details'])->name('details
 Route::get('/blog/category/{slug}', [HomeController::class, 'list'])->name('blogs-by-category');
 
 Route::get('about', [HomeController::class, 'about'])->name('about');
+Route::get('privacy-policy', [HomeController::class, 'privacyPolicy'])->name('privacy.policy');
+Route::get('terms-and-condition', [HomeController::class, 'termsAndConditions'])->name('terms.conditions');
+Route::get('disclaimer', [HomeController::class, 'disclaimer'])->name('disclaimer');
 
 Route::resource('contact', ContactController::class);
 

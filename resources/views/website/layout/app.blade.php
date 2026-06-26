@@ -13,7 +13,7 @@
     @stack('styles')
 </head>
 
-<body>
+<body  class="d-flex flex-column min-vh-100">
     <!-- Navbar -->
     <nav class="navbar navbar-light bg-light border-bottom shadow-sm">
         <div class="container">
@@ -53,7 +53,9 @@
 
     <!-- Main Content (Home Page Example) -->
 
-    @yield('content')
+   <main class="flex-grow-1">
+        @yield('content')
+    </main>
     <!-- Footer -->
 
     @include('website.layout.footer')

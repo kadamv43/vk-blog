@@ -42,7 +42,7 @@
 
 
 @section('content')
-<main class="container py-5">
+<div class="container py-5">
     <div class="row">
         <!-- Left Sidebar for Related Tags -->
 
@@ -172,7 +172,7 @@
             </div>
         </aside>
     </div>
-</main>
+</div>
 
 
 @endsection

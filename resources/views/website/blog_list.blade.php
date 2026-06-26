@@ -2,7 +2,7 @@
 
 @section('content')
 
-<main class="container py-5">
+<div class="container py-5">
     <div class="row">
         <!-- Blog List (Grid) -->
         <div class="col-lg-8">
@@ -94,6 +94,6 @@
             </div>
         </aside>
     </div>
-</main>
+</div>
 
 @endsection
