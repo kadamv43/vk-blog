@@ -25,8 +25,7 @@
         <div class="col-lg-8">
             <h1 class="mb-4">Welcome to VkBlog</h1>
             <p>
-                This is a lightweight, responsive blog template built with Bootstrap
-                5.
+                VKBlog is a multi-topic blog dedicated to sharing informative, practical, and easy-to-read content across various categories. From technology and business to health, education, lifestyle, and beyond, we help readers discover valuable information in one place.
             </p>
 
             <!-- Search Input -->
