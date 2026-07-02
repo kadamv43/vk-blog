@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Sitemap\Tags\Url;
+use Spatie\Sitemap\Contracts\Sitemapable;
 
-class Post extends Model
+class Post extends Model implements Sitemapable
 {
     use HasFactory;
 
@@ -61,5 +64,18 @@ class Post extends Model
     public function getSeoDescriptionAttribute()
     {
         return $this->meta_description ?: strip_tags($this->short_description);
+    }
+
+    public function toSitemapTag(): Url
+    {
+        return Url::create(route('details', ['slug' => $this->slug]))
+            ->setLastModificationDate($this->updated_at)
+            ->setPriority(0.8)
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY);
+    }
+
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('status', 1);
     }
 }
