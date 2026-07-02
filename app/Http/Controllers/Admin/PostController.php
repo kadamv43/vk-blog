@@ -87,27 +87,64 @@ class PostController extends Controller
         }
 
         // Handle image upload and optimization
+        // Handle image upload and optimization
         if ($request->hasFile('image')) {
+
             $manager = new ImageManager(new Driver());
             $image = $request->file('image');
 
-            $resizedImage = $manager->read($image)
-                ->scale(width: 1200)
-                ->toWebp(85);
-
-            $filename = time() . '.webp';
             $directory = public_path('assets/uploads/images');
+            $thumbDirectory = public_path('assets/uploads/thumbnails');
 
-            // Ensure directory exists
             if (!file_exists($directory)) {
-                mkdir($directory, 0777, true);
+                mkdir($directory, 0775, true);
             }
 
-            // Save optimized file
-            file_put_contents($directory . '/' . $filename, (string) $resizedImage);
+            if (!file_exists($thumbDirectory)) {
+                mkdir($thumbDirectory, 0775, true);
+            }
 
-            // Save relative path in DB
+            $filename = time() . '.webp';
+
+            // Read image once
+            $original = $manager->read($image);
+
+            $width = $original->width();
+            $height = $original->height();
+
+            /**
+             * Original Image
+             * Downscale only if width is greater than 1920.
+             * Otherwise keep original dimensions.
+             */
+            $optimized = clone $original;
+
+            if ($width > 1920) {
+                $optimized->scale(width: 1920);
+            }
+
+            file_put_contents(
+                $directory . '/' . $filename,
+                (string) $optimized->toWebp(85)
+            );
+
+            /**
+             * Thumbnail (50% of original dimensions)
+             */
+            $thumbnail = clone $original;
+
+            $thumbnail->scale(
+                width: (int) ($width * 0.5),
+                height: (int) ($height * 0.5)
+            );
+
+            file_put_contents(
+                $thumbDirectory . '/' . $filename,
+                (string) $thumbnail->toWebp(75)
+            );
+
             $post->image = 'assets/uploads/images/' . $filename;
+            $post->thumbnail = 'assets/uploads/thumbnails/' . $filename;
         }
 
         if ($post->save()) {
@@ -206,30 +243,74 @@ class PostController extends Controller
         }
 
         // Image upload
+        // Image upload
         if ($request->hasFile('image')) {
-            // Delete old image
+
+            // Delete old original image
             if ($post->image && file_exists(public_path($post->image))) {
                 unlink(public_path($post->image));
+            }
+
+            // Delete old thumbnail
+            if ($post->thumbnail && file_exists(public_path($post->thumbnail))) {
+                unlink(public_path($post->thumbnail));
             }
 
             $manager = new ImageManager(new Driver());
             $image = $request->file('image');
 
-            $resizedImage = $manager->read($image)
-                ->scale(width: 1200)
-                ->toWebp(70);
-
-            $filename = time() . '.webp';
             $directory = public_path('assets/uploads/images');
+            $thumbDirectory = public_path('assets/uploads/thumbnails');
 
             if (!file_exists($directory)) {
-                mkdir($directory, 0777, true);
+                mkdir($directory, 0775, true);
             }
 
-            file_put_contents($directory . '/' . $filename, (string) $resizedImage);
+            if (!file_exists($thumbDirectory)) {
+                mkdir($thumbDirectory, 0775, true);
+            }
 
-            // Save relative path for frontend use
+            $filename = Str::uuid() . '.webp';
+
+            // Read image
+            $original = $manager->read($image);
+
+            $width = $original->width();
+            $height = $original->height();
+
+            /**
+             * Original Image
+             * Downscale only if width > 1920px
+             */
+            $optimized = clone $original;
+
+            if ($width > 1920) {
+                $optimized->scale(width: 1920);
+            }
+
+            file_put_contents(
+                $directory . '/' . $filename,
+                (string) $optimized->toWebp(85)
+            );
+
+            /**
+             * Thumbnail (50% of original dimensions)
+             */
+            $thumbnail = clone $original;
+
+            $thumbnail->scale(
+                width: (int) ($width * 0.5),
+                height: (int) ($height * 0.5)
+            );
+
+            file_put_contents(
+                $thumbDirectory . '/' . $filename,
+                (string) $thumbnail->toWebp(75)
+            );
+
+            // Save paths
             $post->image = 'assets/uploads/images/' . $filename;
+            $post->thumbnail = 'assets/uploads/thumbnails/' . $filename;
         }
 
         if ($post->save()) {

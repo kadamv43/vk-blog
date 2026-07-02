@@ -18,8 +18,8 @@ class Post extends Model
         'views',
         'is_editors_pick',
         'short_description',
+        'thumbnail',
         'image',
-
         // SEO Fields
         'meta_title',
         'meta_description',

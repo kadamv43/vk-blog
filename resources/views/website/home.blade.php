@@ -84,7 +84,7 @@
                                 @foreach($blogChunk as $blog)
                                 <div class="col-md-4">
                                     <div class="card h-100">
-                                        <img src="{{ asset($blog->image) }}" class="card-img-top" alt="Blog Image">
+                                        <img src="{{ asset($blog->thumbnail) }}" class="card-img-top" alt="Blog Image">
 
                                         <div class="card-body d-flex flex-column">
                                             <h5 class="card-title">{{ $blog->title }}</h5>
@@ -130,7 +130,7 @@
                                 @foreach($blogChunk as $blog)
                                <div class="col-md-4">
                                     <div class="card h-100">
-                                        <img src="{{ asset($blog->image) }}" class="card-img-top" alt="Blog Image">
+                                        <img src="{{ asset($blog->thumbnail) }}" class="card-img-top" alt="Blog Image">
 
                                         <div class="card-body d-flex flex-column">
                                             <h5 class="card-title">{{ $blog->title }}</h5>
