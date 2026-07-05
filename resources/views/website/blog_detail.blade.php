@@ -1,51 +1,56 @@
 @extends('website.layout.app')
 
-@push('styles')
-    <link href="{{ asset('assets/website/css/details.css') }}" rel="stylesheet" />
+@section('title', $detail->seo_title ?: $detail->title . ' | VKBlog')
 
-    <style>
-        .related-card {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
+@section('meta_description', $detail->seo_description ?: Str::limit(strip_tags($detail->short_description ?:
+    $detail->description), 160))
 
-        .related-img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-        }
+    @push('styles')
+        <link href="{{ asset('assets/website/css/details.css') }}" rel="stylesheet" />
 
-        .related-card-body {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
+        <style>
+            .related-card {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
 
-        .related-card-title {
-            min-height: 56px;
-            overflow: hidden;
-        }
+            .related-img {
+                width: 100%;
+                height: 220px;
+                object-fit: cover;
+            }
 
-        .related-card-desc {
-            min-height: 72px;
-            overflow: hidden;
-        }
+            .related-card-body {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+            }
 
-        .related-read-more {
-            margin-top: auto;
-        }
+            .related-card-title {
+                min-height: 56px;
+                overflow: hidden;
+            }
 
-        .blog-image {
-            display: block;
-            width: auto;
-            max-width: 100%;
-            max-height: 450px;
-            margin: 0 auto;
-            object-fit: contain;
-        }
-    </style>
-@endpush
+            .related-card-desc {
+                min-height: 72px;
+                overflow: hidden;
+            }
+
+            .related-read-more {
+                margin-top: auto;
+            }
+
+            .blog-image {
+                display: block;
+                width: auto;
+                max-width: 100%;
+                max-height: 450px;
+                margin: 0 auto;
+                object-fit: contain;
+            }
+        </style>
+    @endpush
 
 
 @section('content')
