@@ -13,6 +13,7 @@
         gtag('js', new Date());
 
         gtag('config', 'G-GJZ4P86C21');
+
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,7 +21,7 @@
 
     <title>@yield('title', 'VKBlog')</title>
     <meta name="description" content="@yield('meta_description', 'VKBlog')">
-
+    <link rel="canonical" href="{{ url()->current() }}">
 
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/website/images/favicon.ico') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -35,6 +36,7 @@
             max-height: 60px;
             width: auto;
         }
+
     </style>
 </head>
 
