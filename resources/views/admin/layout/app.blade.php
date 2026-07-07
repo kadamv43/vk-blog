@@ -180,8 +180,7 @@
     <!-- Page JS -->
     <script src="{{asset('assets/admin/js/dashboards-analytics.js')}}"></script>
 
-    <!-- Include CKEditor 5 CDN -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script src="{{asset('assets/admin/js/tinymce/tinymce.min.js')}}" referrerpolicy="origin"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 

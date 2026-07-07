@@ -89,17 +89,13 @@
                             </div>
                             <div class="mb-6">
                                 <label class="form-label" for="basic-default-phone">Short Description</label>
-                                <textarea class="editor" name="short_description">
-                                {{ $post->short_description }}
-                                </textarea>
+                                <textarea class="editor" name="short_description">{!! old('short_description', $post->short_description) !!}</textarea>
                             </div>
 
                             <div class="mb-6">
                                 <div class="form-group">
                                     <label for="first-name-vertical">Description</label>
-                                    <textarea class="editor" name="description">
-                                    {{ $post->description }}
-                                    </textarea>
+                                    <textarea class="editor" name="description">{!! old('description', $post->description) !!}</textarea>
                                 </div>
                             </div>
 
@@ -212,12 +208,87 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-    document.querySelectorAll('.editor').forEach((editorElement) => {
-        ClassicEditor
-            .create(editorElement)
-            .catch(error => {
-                console.error(error);
-            });
+
+
+    tinymce.init({
+        selector: '.editor',
+
+        license_key: 'gpl',
+
+        height: 500,
+
+        menubar: true,
+
+        branding: false
+        , promotion: false,
+
+        plugins: [
+            'advlist', 'autolink', 'lists', 'link', 'image'
+            , 'charmap', 'preview', 'anchor'
+            , 'searchreplace', 'visualblocks', 'code'
+            , 'fullscreen', 'insertdatetime', 'media'
+            , 'table', 'codesample', 'wordcount'
+        ],
+
+
+        toolbar: 'undo redo | ' +
+            'blocks | ' +
+            'fontfamily fontsize | ' +
+            'bold italic underline strikethrough | ' +
+            'forecolor backcolor | ' +
+            'alignleft aligncenter alignright alignjustify | ' +
+            'bullist numlist outdent indent | ' +
+            'link image media table | ' +
+            'codesample code preview fullscreen',
+
+        codesample_languages: [{
+                text: 'PHP'
+                , value: 'php'
+            }
+            , {
+                text: 'Laravel'
+                , value: 'php'
+            }
+            , {
+                text: 'HTML'
+                , value: 'markup'
+            }
+            , {
+                text: 'CSS'
+                , value: 'css'
+            }
+            , {
+                text: 'JavaScript'
+                , value: 'javascript'
+            }
+            , {
+                text: 'TypeScript'
+                , value: 'typescript'
+            }
+            , {
+                text: 'JSON'
+                , value: 'json'
+            }
+            , {
+                text: 'SQL / MySQL'
+                , value: 'sql'
+            }
+            , {
+                text: 'Bash'
+                , value: 'bash'
+            }
+            , {
+                text: 'XML'
+                , value: 'xml'
+            }
+        ],
+
+        content_style: `
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size:16px;
+        }
+    `
     });
 
 </script>
