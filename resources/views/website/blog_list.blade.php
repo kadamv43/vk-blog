@@ -1,5 +1,7 @@
 @extends('website.layout.app')
 
+@section('title', 'Blog | VKBlog')
+
 @section('content')
 
 <div class="container py-5">

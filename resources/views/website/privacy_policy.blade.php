@@ -1,3 +1,4 @@
+@section('title', 'Privacy Policy | VKBlog')
 @extends('website.layout.app')
 
 @section('content')
