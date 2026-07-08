@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="en">
 
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-GJZ4P86C21"></script>
@@ -17,7 +17,6 @@
     <meta charset="UTF-8" />
     <!-- mobile responsive meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="@yield('meta_description', 'VKBlog')">
 
     <title>@yield('title', 'VKBlog')</title>
