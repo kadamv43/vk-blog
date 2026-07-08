@@ -81,49 +81,36 @@
 
                 @endforeach
 
-                @if($latest->hasPages())
+                @if ($latest->hasPages())
                 <div class="blog-post-pagination">
-                    <nav aria-label="Page navigation" class="nav-bg">
+                    <nav aria-label="Page navigation example" class="nav-bg">
                         <ul class="pagination">
 
                             {{-- Previous --}}
-                            @if($latest->onFirstPage())
-                            <li class="page-item disabled">
-                                <span class="page-link">
-                                    <i class="fa fa-angle-left"></i>
-                                </span>
-                            </li>
-                            @else
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $latest->previousPageUrl() }}">
+                            <li class="page-item {{ $latest->onFirstPage() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $latest->previousPageUrl() ?? '#' }}">
                                     <i class="fa fa-angle-left"></i>
                                 </a>
                             </li>
-                            @endif
 
                             {{-- Page Numbers --}}
-                            @foreach ($latest->getUrlRange(1, $latest->lastPage()) as $page => $url)
+                            @foreach ($latest->links()->elements[0] ?? [] as $page => $url)
+                            @endforeach
+
+                            @foreach ($latest->getUrlRange(max(1, $latest->currentPage()-2), min($latest->lastPage(), $latest->currentPage()+2)) as $page => $url)
                             <li class="page-item">
-                                <a class="page-link {{ $page == $latest->currentPage() ? 'active' : '' }}" href="{{ $url }}">
+                                <a href="{{ $url }}" class="page-link {{ $page == $latest->currentPage() ? 'active' : '' }}">
                                     {{ $page }}
                                 </a>
                             </li>
                             @endforeach
 
                             {{-- Next --}}
-                            @if($latest->hasMorePages())
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $latest->nextPageUrl() }}">
+                            <li class="page-item {{ !$latest->hasMorePages() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $latest->nextPageUrl() ?? '#' }}">
                                     <i class="fa fa-angle-right"></i>
                                 </a>
                             </li>
-                            @else
-                            <li class="page-item disabled">
-                                <span class="page-link">
-                                    <i class="fa fa-angle-right"></i>
-                                </span>
-                            </li>
-                            @endif
 
                         </ul>
                     </nav>
