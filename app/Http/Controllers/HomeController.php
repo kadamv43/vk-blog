@@ -31,7 +31,7 @@ class HomeController extends Controller
     {
         $detail = Post::where('slug', $slug)->firstOrFail();
 
-        return view('website.blog_detail', [
+        return view('website.blog.detail', [
             'detail' => $detail
         ]);
     }
@@ -42,7 +42,7 @@ class HomeController extends Controller
 
         $data = Post::where('category_id', $category->id)->paginate(2);
 
-        return view('website.blog_list', [
+        return view('website.blog.list', [
             'data' => $data,
             'category' => $category->name
         ]);
