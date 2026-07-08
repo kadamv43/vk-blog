@@ -11,7 +11,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        $latest = Post::orderByDesc('id')->take(6)->get();
+        $latest = Post::orderByDesc('id')->paginate(2);
         $trending = Post::orderByDesc('views')->take(6)->get();
         $cat_ids = Post::whereNotNull('category_id')->groupBy('category_id')->pluck('category_id');
         $categories = Category::whereIn('id', $cat_ids)->get();

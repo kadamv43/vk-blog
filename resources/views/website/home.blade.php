@@ -1,4 +1,3 @@
-
 @section('title', 'Home | VKBlog')
 
 @extends('website.layout.app')
@@ -18,26 +17,26 @@
                     <div class="featured-post-content">
                         {{-- <div class="featured-post-author">
                             <img src="{{ asset('assets/web/images/author.png') }}" alt="author" />
-                            <p>By <span>Mary Astor</span></p>
-                        </div> --}}
-                        <a href="{{ route('details', $featured->slug) }}" class="featured-post-title">
-                            {{$featured->title}}
-                        </a>
-                        <ul class="featured-post-meta">
-                            <li>
-                                <i class="fa fa-clock-o"></i>
-                                {{ $featured->created_at->format('F j, Y - g:i A') }}
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="featured-post-thumb">
-                        <img src="{{ asset($featured->thumbnail) }}" alt="feature-post-thumb" />
-                    </div>
-                </article>
-                @endif
-
+                        <p>By <span>Mary Astor</span></p>
+                    </div> --}}
+                    <a href="{{ route('details', $featured->slug) }}" class="featured-post-title">
+                        {{$featured->title}}
+                    </a>
+                    <ul class="featured-post-meta">
+                        <li>
+                            <i class="fa fa-clock-o"></i>
+                            {{ $featured->created_at->format('F j, Y - g:i A') }}
+                        </li>
+                    </ul>
             </div>
+            <div class="featured-post-thumb">
+                <img src="{{ asset($featured->thumbnail) }}" alt="feature-post-thumb" />
+            </div>
+            </article>
+            @endif
+
         </div>
+    </div>
     </div>
 </section>
 
@@ -82,23 +81,11 @@
 
                 @endforeach
 
+                @if($latest->hasPages())
                 <div class="blog-post-pagination">
-                    <nav aria-label="Page navigation example" class="nav-bg">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link active" href="#">1</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                    {{ $latest->links() }}
                 </div>
+                @endif
             </div>
             <div class="col-lg-4">
                 <div class="blog-post-widget">
