@@ -43,7 +43,9 @@ $detail->description), 160))
             </div>
             <div class="col-lg-10 order-1 order-lg-2">
                 <article class="single-blog">
-                    <a href="#" class="tag">Travel</a>
+                    @if($detail->category && $detail->category->name)
+                    <a href="#" class="tag">{{$detail->category->name}}</a>
+                    @endif
                     <p class="title">{{ $detail->title }}</p>
                     {{-- <ul class="meta">
                         <li>By <a href="about.html">Mary Astor</a></li>

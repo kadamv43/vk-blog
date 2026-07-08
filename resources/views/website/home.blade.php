@@ -57,7 +57,9 @@
                     </div>
                     <div class="blog-post-content">
                         <div class="blog-post-tag">
-                            <a href="category.html">Travel</a>
+                            @if($blog->category && $blog->category->name)
+                            <a href="category.html">{{ $blog->category->name }}</a>
+                            @endif
                         </div>
                         <div class="blog-post-title">
                             <a href="{{ route('details', $blog->slug) }}">{{ $blog->title }}</a>
