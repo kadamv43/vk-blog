@@ -66,7 +66,7 @@
                         </div>
                         <div class="blog-post-meta">
                             <ul>
-                                <li>By <a href="about.html">Mary Astor</a></li>
+                                {{-- <li>By <a href="about.html">Mary Astor</a></li> --}}
                                 <li>
                                     <i class="fa fa-clock-o"></i>
                                     {{ $blog->created_at->format('F j, Y - g:i A') }}
