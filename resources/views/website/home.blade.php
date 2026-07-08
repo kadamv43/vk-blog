@@ -83,7 +83,50 @@
 
                 @if($latest->hasPages())
                 <div class="blog-post-pagination">
-                    {{ $latest->links() }}
+                    <nav aria-label="Page navigation" class="nav-bg">
+                        <ul class="pagination">
+
+                            {{-- Previous --}}
+                            @if($latest->onFirstPage())
+                            <li class="page-item disabled">
+                                <span class="page-link">
+                                    <i class="fa fa-angle-left"></i>
+                                </span>
+                            </li>
+                            @else
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $latest->previousPageUrl() }}">
+                                    <i class="fa fa-angle-left"></i>
+                                </a>
+                            </li>
+                            @endif
+
+                            {{-- Page Numbers --}}
+                            @foreach ($latest->getUrlRange(1, $latest->lastPage()) as $page => $url)
+                            <li class="page-item">
+                                <a class="page-link {{ $page == $latest->currentPage() ? 'active' : '' }}" href="{{ $url }}">
+                                    {{ $page }}
+                                </a>
+                            </li>
+                            @endforeach
+
+                            {{-- Next --}}
+                            @if($latest->hasMorePages())
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $latest->nextPageUrl() }}">
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </li>
+                            @else
+                            <li class="page-item disabled">
+                                <span class="page-link">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </li>
+                            @endif
+
+                        </ul>
+                    </nav>
                 </div>
                 @endif
             </div>
