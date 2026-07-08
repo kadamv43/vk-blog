@@ -9,7 +9,17 @@ $detail->description), 160))
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
 
+<style>
+    .blog-featured-image {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        border-radius: 12px;
+        display: block;
+        margin-bottom: 30px;
+    }
 
+</style>
 @endpush
 
 
@@ -35,18 +45,18 @@ $detail->description), 160))
                 <article class="single-blog">
                     <a href="#" class="tag">Travel</a>
                     <p class="title">{{ $detail->title }}</p>
-                    <ul class="meta">
+                    {{-- <ul class="meta">
                         <li>By <a href="about.html">Mary Astor</a></li>
                         <li>
                             <i class="fa fa-clock-o"></i>
                             October 19, 2020 - 2 min
                         </li>
-                    </ul>
-                    <img src="{{ asset($detail->image) }}" alt="{{ $detail->title }}">
+                    </ul> --}}
+                    <img src="{{ asset($detail->image) }}" class="img-fluid blog-featured-image" alt="{{ $detail->title }}">
 
                     {!! html_entity_decode($detail->description) !!}
                 </article>
-                <div class="blog-single-presentation">
+                {{-- <div class="blog-single-presentation">
                     <ul>
                         <li> <a href="#" class="tag">PREVIOUS</a>
                             <a href="#" class="title">I Moved Across the Country
@@ -58,7 +68,7 @@ $detail->description), 160))
                                 Will Demand a Different</a><i class="fa fa-clock-o"></i>
                             October 19, 2020 - 2 min</li>
                     </ul>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
