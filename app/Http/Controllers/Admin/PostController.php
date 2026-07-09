@@ -60,7 +60,7 @@ class PostController extends Controller
         $post = new Post();
 
         $post->title = $request->input('title');
-        $post->slug = Str::slug($request->input('title'));
+        $post->slug = $request->input('slug') ?? Str::slug($request->input('title'));
         $post->category_id = $request->input('category_id');
         $post->description = $request->input('description');
         $post->short_description = $request->input('short_description');
@@ -216,7 +216,7 @@ class PostController extends Controller
         $post->title = $request->input('title');
 
         $post->title = $request->input('title');
-        $post->slug = Str::slug($request->input('title'));
+        $post->slug = $request->input('slug') ?? Str::slug($request->input('title'));
 
         $post->category_id = (int) $request->input('category_id');
         $post->description = $request->input('description');

@@ -51,6 +51,11 @@
                                     <input data-parsley-required type="text" id="first-name-vertical" class="form-control" name="title" placeholder="Post title" value="{{ $post->title }}" data-parsley-required-message="Post title required">
                                 </div>
                             </div>
+
+                            <div class="mb-6">
+                                <label class="form-label" for="basic-default-fullname">Slug</label>
+                                <input type="text" class="form-control" name="slug" placeholder="Slug" value="{{ $post->slug }}">
+                            </div>
                             <div class="mb-6">
                                 <label class="form-label" for="tags">Tags</label>
                                 <select class="form-control select2-tags" name="tags[]" multiple="multiple" style="width: 100%;">

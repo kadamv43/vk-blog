@@ -32,6 +32,11 @@
                         </div>
 
                         <div class="mb-6">
+                            <label class="form-label" for="basic-default-fullname">Slug</label>
+                            <input type="text" class="form-control" name="slug" placeholder="Slug" value="{{ old('slug') }}" >
+                        </div>
+
+                        <div class="mb-6">
                             <label class="form-label" for="tags">Tags</label>
                             <select class="form-control select2-tags" name="tags[]" multiple="multiple" style="width: 100%;">
                                 @if(old('tags'))
