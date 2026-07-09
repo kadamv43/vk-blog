@@ -84,8 +84,8 @@
                                     <label for="image">Image</label>
                                     <input id="imgInput" type="file" class="form-control" name="image" accept="image/png, image/jpeg" onchange="previewSelectedImage(event)">
                                     <div class="mt-3">
-                                        @if($post->image)
-                                        <img id="imgPreview" src="{{ asset($post->image) }}" alt="Current Image" style="max-height: 200px;" class="img-fluid rounded shadow">
+                                        @if($post->thumbnail)
+                                        <img id="imgPreview" src="{{ asset($post->thumbnail_url) }}" alt="Current Image" style="max-height: 200px;" class="img-fluid rounded shadow">
                                         @else
                                         <img id="imgPreview" src="#" alt="Image Preview" style="display: none; max-height: 200px;" class="img-fluid rounded shadow">
                                         @endif
