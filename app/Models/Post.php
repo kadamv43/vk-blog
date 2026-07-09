@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {
@@ -61,5 +62,15 @@ class Post extends Model
     public function getSeoDescriptionAttribute()
     {
         return $this->meta_description ?: strip_tags($this->short_description);
+    }
+
+    public function getImageUrlAttribute()
+    {
+        return $this->image ? Storage::url($this->image) : null;
+    }
+
+    public function getThumbnailUrlAttribute()
+    {
+        return $this->thumbnail ? Storage::url($this->thumbnail) : null;
     }
 }

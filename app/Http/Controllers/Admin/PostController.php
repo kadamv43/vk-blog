@@ -87,22 +87,11 @@ class PostController extends Controller
         }
 
         // Handle image upload and optimization
-        // Handle image upload and optimization
+
         if ($request->hasFile('image')) {
 
             $manager = new ImageManager(new Driver());
             $image = $request->file('image');
-
-            $directory = public_path('assets/uploads/images');
-            $thumbDirectory = public_path('assets/uploads/thumbnails');
-
-            if (!file_exists($directory)) {
-                mkdir($directory, 0775, true);
-            }
-
-            if (!file_exists($thumbDirectory)) {
-                mkdir($thumbDirectory, 0775, true);
-            }
 
             $filename = time() . '.webp';
 
@@ -115,7 +104,6 @@ class PostController extends Controller
             /**
              * Original Image
              * Downscale only if width is greater than 1920.
-             * Otherwise keep original dimensions.
              */
             $optimized = clone $original;
 
@@ -123,8 +111,8 @@ class PostController extends Controller
                 $optimized->scale(width: 1920);
             }
 
-            file_put_contents(
-                $directory . '/' . $filename,
+            Storage::disk('public')->put(
+                'uploads/images/' . $filename,
                 (string) $optimized->toWebp(85)
             );
 
@@ -138,13 +126,14 @@ class PostController extends Controller
                 height: (int) ($height * 0.5)
             );
 
-            file_put_contents(
-                $thumbDirectory . '/' . $filename,
+            Storage::disk('public')->put(
+                'uploads/thumbnails/' . $filename,
                 (string) $thumbnail->toWebp(75)
             );
 
-            $post->image = 'assets/uploads/images/' . $filename;
-            $post->thumbnail = 'assets/uploads/thumbnails/' . $filename;
+            // Store relative path in database
+            $post->image = 'uploads/images/' . $filename;
+            $post->thumbnail = 'uploads/thumbnails/' . $filename;
         }
 
         if ($post->save()) {
@@ -243,32 +232,21 @@ class PostController extends Controller
         }
 
         // Image upload
-        // Image upload
+
         if ($request->hasFile('image')) {
 
             // Delete old original image
-            if ($post->image && file_exists(public_path($post->image))) {
-                unlink(public_path($post->image));
+            if ($post->image && Storage::disk('public')->exists($post->image)) {
+                Storage::disk('public')->delete($post->image);
             }
 
             // Delete old thumbnail
-            if ($post->thumbnail && file_exists(public_path($post->thumbnail))) {
-                unlink(public_path($post->thumbnail));
+            if ($post->thumbnail && Storage::disk('public')->exists($post->thumbnail)) {
+                Storage::disk('public')->delete($post->thumbnail);
             }
 
             $manager = new ImageManager(new Driver());
             $image = $request->file('image');
-
-            $directory = public_path('assets/uploads/images');
-            $thumbDirectory = public_path('assets/uploads/thumbnails');
-
-            if (!file_exists($directory)) {
-                mkdir($directory, 0775, true);
-            }
-
-            if (!file_exists($thumbDirectory)) {
-                mkdir($thumbDirectory, 0775, true);
-            }
 
             $filename = Str::uuid() . '.webp';
 
@@ -288,8 +266,8 @@ class PostController extends Controller
                 $optimized->scale(width: 1920);
             }
 
-            file_put_contents(
-                $directory . '/' . $filename,
+            Storage::disk('public')->put(
+                'uploads/images/' . $filename,
                 (string) $optimized->toWebp(85)
             );
 
@@ -303,14 +281,14 @@ class PostController extends Controller
                 height: (int) ($height * 0.5)
             );
 
-            file_put_contents(
-                $thumbDirectory . '/' . $filename,
+            Storage::disk('public')->put(
+                'uploads/thumbnails/' . $filename,
                 (string) $thumbnail->toWebp(75)
             );
 
-            // Save paths
-            $post->image = 'assets/uploads/images/' . $filename;
-            $post->thumbnail = 'assets/uploads/thumbnails/' . $filename;
+            // Save relative paths in DB
+            $post->image = 'uploads/images/' . $filename;
+            $post->thumbnail = 'uploads/thumbnails/' . $filename;
         }
 
         if ($post->save()) {
