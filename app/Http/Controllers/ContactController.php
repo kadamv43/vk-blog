@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactMail;
 use Illuminate\Http\Request;
+use Mail;
 
 class ContactController extends Controller
 {
@@ -18,8 +20,7 @@ class ContactController extends Controller
             'message' => 'required|string|min:10',
         ]);
 
-        // Optionally send email or store in DB
-        // Mail::to('admin@example.com')->send(new ContactMail($validated));
+        Mail::to('contact@vkblog.in')->send(new ContactMail($validated));
 
         return back()->with('success', 'Thank you! Your message has been sent.');
     }
