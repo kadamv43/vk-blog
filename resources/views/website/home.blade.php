@@ -30,7 +30,7 @@
                     </ul>
             </div>
             <div class="featured-post-thumb">
-                <img src="{{$featured->thumbnail}}" alt="feature-post-thumb" />
+                <img src="{{$featured->thumbnail_url}}" alt="feature-post-thumb" />
             </div>
             </article>
             @endif
@@ -52,7 +52,7 @@
                 @foreach($latest as $blog)
                 <article class="blog-post">
                     <div class="blog-post-thumb">
-                        <img src="{{$blog->thumbnail}}" alt="blog-thum" />
+                        <img src="{{$blog->thumbnail_url}}" alt="blog-thum" />
                     </div>
                     <div class="blog-post-content">
                         <div class="blog-post-tag">
@@ -126,7 +126,7 @@
                     <div class="latest-widget">
                         <div class="latest-widget-thum">
                             <a href="{{ route('details', $blog->slug) }}">
-                                <img src="{{$blog->thumbnail}}" alt="blog-thum" /></a>
+                                <img src="{{$blog->thumbnail_url}}" alt="blog-thum" /></a>
                             <div class="icon">
                                 <a href="{{ route('details', $blog->slug) }}">
                                     <img src="{{ asset('assets/web/images/blog/icon.svg') }}" alt="icon" /></a>
