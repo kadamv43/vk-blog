@@ -4,35 +4,54 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-
     public function index()
     {
-        $latest = Post::orderByDesc('id')->paginate(6);
-        $trending = Post::orderByDesc('views')->take(6)->get();
-        $cat_ids = Post::whereNotNull('category_id')->groupBy('category_id')->pluck('category_id');
+        $categoryId = session('category_id');
+
+        $latest = Post::when($categoryId, function ($query) use ($categoryId) {
+            $query->where('category_id', $categoryId);
+        })
+            ->latest()
+            ->paginate(6);
+
+        $trending = Post::when($categoryId, function ($query) use ($categoryId) {
+            $query->where('category_id', $categoryId);
+        })
+            ->orderByDesc('views')
+            ->take(6)
+            ->get();
+
+        $cat_ids = Post::whereNotNull('category_id')
+            ->groupBy('category_id')
+            ->pluck('category_id');
+
         $categories = Category::whereIn('id', $cat_ids)->get();
-        $featured = Post::where('is_editors_pick', 1)
+
+        $featured = Post::when($categoryId, function ($query) use ($categoryId) {
+            $query->where('category_id', $categoryId);
+        })
+            ->where('is_editors_pick', 1)
             ->latest()
             ->first();
+
         return view('website.home', [
             'latest' => $latest,
             'categories' => $categories,
             'trending' => $trending,
-            'featured' => $featured
+            'featured' => $featured,
         ]);
     }
-
 
     public function details($slug)
     {
         $detail = Post::where('slug', $slug)->firstOrFail();
+        session(['category_id' => $detail->category_id]);
 
         return view('website.blog.detail', [
-            'detail' => $detail
+            'detail' => $detail,
         ]);
     }
 
@@ -44,7 +63,7 @@ class HomeController extends Controller
 
         return view('website.blog.list', [
             'data' => $data,
-            'category' => $category->name
+            'category' => $category->name,
         ]);
     }
 
