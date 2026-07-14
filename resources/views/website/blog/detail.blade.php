@@ -54,7 +54,7 @@ $detail->description), 160))
                             October 19, 2020 - 2 min
                         </li>
                     </ul> --}}
-                    <img src="{{ $detail->image_url }}" class="img-fluid blog-featured-image" alt="{{ $detail->title }}">
+                    <img width="1200" height="630" src="{{ $detail->image_url }}" class="img-fluid blog-featured-image" alt="{{ $detail->title }}" fetchpriority="high" />
 
                     {!! html_entity_decode($detail->description) !!}
                 </article>
